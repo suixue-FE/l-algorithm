@@ -87,3 +87,12 @@ function threeSumNice(arr, sum) {
     return res
 }
 console.log(threeSumNice(arr, 8));
+
+let arr = [1,2,3,[2,3,4,5]];
+function flatArr (arr) {
+   return arr.reduce((prev,item)=>{
+        return Array.isArray(item) ?  prev.concat(flatArr(item)) : prev.concat(item)   
+    },[])
+}
+console.log(flatArr(arr))
+// console.log(arr);
