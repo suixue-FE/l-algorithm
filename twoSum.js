@@ -59,20 +59,6 @@ function threeSum(arr, sum) {
 }
 console.log(threeSum(arr, 8));
 
-
-// 这里就是上面sum2的空间换时间的算法 复杂度O 下面sum3要用
-function threeSumNiceIn(arr, sum) {
-    let res = null
-    const leng = arr.length
-    for (let i = 0; i < leng; i++) {
-        let needNum = sum - arr[i]
-        const k = arr.indexOf(needNum)
-        if (k > -1 && k !== i) {
-            return [i, k]
-        }
-    }
-    return res
-}
 // 2.循环一次，内部调用sum2里的算法，本质上循环了两次
 function threeSumNice(arr, sum) {
     let res = null
