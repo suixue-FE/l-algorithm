@@ -39,6 +39,7 @@ class LinkNodeList{
     }
     return ret.join('=>')
   }
+  // 移除指定位置节点
   removeAt(index){
     if(index>this.length||index<0){
       return
@@ -64,6 +65,7 @@ class LinkNodeList{
   }
 }
 
+// 链表结构
 let linkNodeList = new LinkNodeList()
 
 linkNodeList.append('121212')

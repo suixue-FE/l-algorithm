@@ -95,4 +95,3 @@ function flatArr (arr) {
     },[])
 }
 console.log(flatArr(arr))
-// console.log(arr);

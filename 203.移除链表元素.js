@@ -33,3 +33,17 @@ var removeElements = function(head, val) {
 };
 // @lc code=end
 
+var removeElements = function(head, val) {
+  // a=>b=>c=>d=>e=>f
+  // 这时候设置一个哨兵元素，放到第一个，只作为辅助使用，目的是少做第head的判断逻辑
+  let ele = {next: head}
+  let cur = ele,
+  while(cur.next) {
+    if ( cur.next.val === val) {
+      cur.next = cur.next.next
+    }else{
+      cur = cur.next;
+    }
+  }
+  return ele.next;
+};

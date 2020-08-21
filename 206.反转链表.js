@@ -22,12 +22,14 @@ var reverseList = function(head) {
   }
   let cur = head
   let prev = null
-  let next = head.next
+  // let next = head.next
   while(cur){
-  next = cur.next
-  cur.next = prev
-  prev = cur
-  cur = next
+    // 优化代码
+  [cur.next,prev,cur] = [prev,cur,cur.next]
+  // next = cur.next
+  // cur.next = prev
+  // prev = cur
+  // cur = next
   }
   return prev
 };
