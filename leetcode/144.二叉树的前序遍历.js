@@ -20,12 +20,12 @@ var preorderTraversal1 = function(root,a=[]) {
   // 递归
     if (root) {
       a.push(root.val);
-      preorderTraversal(root.left,a);
-      preorderTraversal(root.right,a);
+      preorderTraversal1(root.left,a);
+      preorderTraversal1(root.right,a);
     }
     return a
 };
-var preorderTraversal = function(root,a=[]) {
+var preorderTraversal = function(root) {
   // 迭代
   // 开始遍历，有一个stack存储
   // left入栈，知道left为空
