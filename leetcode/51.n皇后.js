@@ -36,14 +36,18 @@ var solveNQueens = function(n) {
       )
     }
     // item.push(row)
+    // 1、如何查找
     for (let j =0;j<n;j++){
       const isCanAdd = item.some((value,index) =>{
         // index是行，value是列 都是已经存起来的数据
+        // row,传进来的当前行，j当前列
         return value===j||(value+index)===(j+row)||(value-index)===(j-row)
       })
       if (isCanAdd) {
+        // 如果命中证明皇后要打架，执行下一次循环去
         continue 
       }
+      // 否则证明没问题，下一行就行
       find(row+1,[...item,j])
     }
     
