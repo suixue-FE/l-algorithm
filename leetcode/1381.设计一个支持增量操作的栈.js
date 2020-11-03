@@ -9,9 +9,10 @@
  * @param {number} maxSize
  */
 var CustomStack = function(maxSize) {
-   this.size = 0
-   this.maxSizeVal = maxSize
-   this.dataStore = []
+  this.maxSize = maxSize;
+  this.satck = []
+  this.hash = {}
+  this.size = 0
 };
 
 /** 
@@ -19,8 +20,8 @@ var CustomStack = function(maxSize) {
  * @return {void}
  */
 CustomStack.prototype.push = function(x) {
-  if (this.maxSizeVal>this.size) {
-    this.dataStore.push(x)
+  if (this.size<this.maxSize) {
+    this.satck.push(x)
     this.size++
   }
 };
@@ -29,11 +30,20 @@ CustomStack.prototype.push = function(x) {
  * @return {number}
  */
 CustomStack.prototype.pop = function() {
-  if (this.size===0) return -1
-  else {
-    this.size--
-    return this.dataStore.pop()
-  }
+  if (this.size<=0) return -1
+  const top = this.size - 1
+  const addVal = this.hash[top]||0
+  let item = this.satck.pop();
+  this.size-- 
+  item+=addVal
+  // 这里要注意，如果弹出了值，就证明首位已经加过了
+  // 新加进来的数字不需要加，但是他后面的数字还没加
+  // 所以首位变为0，下一位加上
+  const nowTop = top - 1;
+  if (nowTop in this.hash) this.hash[nowTop] += addVal;
+  else this.hash[nowTop] = addVal
+  this.hash[top] = 0;
+  return item
 };
 
 /** 
@@ -42,10 +52,9 @@ CustomStack.prototype.pop = function() {
  * @return {void}
  */
 CustomStack.prototype.increment = function(k, val) {
-  const size = this.size<k ?  this.size:k
-  for (let i = 0; i < size; i++) {
-    this.dataStore[i]+=val
-  }
+  const index = k>this.size?this.size-1:k-1
+  if (index in this.hash) this.hash[index] += val;
+  else this.hash[index] = val
 };
 
 /**
