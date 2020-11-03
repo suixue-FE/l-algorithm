@@ -30,7 +30,7 @@ CustomStack.prototype.push = function(x) {
  * @return {number}
  */
 CustomStack.prototype.pop = function() {
-  if (this.size<=0) return -1
+  if (this.size=0) return -1
   const top = this.size - 1
   const addVal = this.hash[top]||0
   let item = this.satck.pop();
