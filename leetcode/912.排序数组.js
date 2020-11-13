@@ -22,31 +22,49 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-
-var sortArray = function(nums) {
-  // 快排，明明写过但是下面的交换逻辑还是乱了，重新理了很久
-  findIndex(0,nums.length-1)
-  function findIndex(start,end){
-    if (start>=end) return
-    const value = nums[start];
-    let index = start
-    for (let i = start; i <= end; i++) {
-      if (value>nums[i]) {
-        index++
-        // 这时候 nums[index] 稳定是一个比value大的值，所以可以直接把它换到右边
-        var temp = nums[index];
-        nums[index] = nums[i];
-        nums[i] = temp;
-      }
-    }
-    // 最后，等start右边已经由index分为大小两区
-    // 然后和index换一下，此时index左边都是小的，右边都是大的
-    nums[start] = nums[index]
-    nums[index] = value;
-    findIndex(start,index-1);
-    findIndex(index+1,end);
-  }
-  return nums;
+function sortArray(array){
+  quickSortAss(array,0,array.length-1)
+  return array
 }
+function quickSortAss(array , start , end){
+  if (end<=start) return
+  const value = array[start]
+  let index = start
+  for (let i = start; i <= end; i++) {
+    if (array[i]<value) {
+      index++
+      [array[index],array[i]]=[array[i],array[index]]
+    }
+  }
+  [array[index],array[start]] = [value,array[index]]
+  quickSortAss(array, start,index-1)
+  quickSortAss(array, index+1,end)
+}
+
+// var sortArray = function(nums) {
+//   // 快排，明明写过但是下面的交换逻辑还是乱了，重新理了很久
+//   findIndex(0,nums.length-1)
+//   function findIndex(start,end){
+//     if (start>=end) return
+//     const value = nums[start];
+//     let index = start
+//     for (let i = start; i <= end; i++) {
+//       if (value>nums[i]) {
+//         index++
+//         // 这时候 nums[index] 稳定是一个比value大的值，所以可以直接把它换到右边
+//         var temp = nums[index];
+//         nums[index] = nums[i];
+//         nums[i] = temp;
+//       }
+//     }
+//     // 最后，等start右边已经由index分为大小两区
+//     // 然后和index换一下，此时index左边都是小的，右边都是大的
+//     nums[start] = nums[index]
+//     nums[index] = value;
+//     findIndex(start,index-1);
+//     findIndex(index+1,end);
+//   }
+//   return nums;
+// }
 // @lc code=end
 
