@@ -37,4 +37,3 @@ var rotateRight = function(head, k) {
   return nowhead
 };
 // @lc code=end
-
