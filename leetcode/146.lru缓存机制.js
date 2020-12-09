@@ -5,38 +5,54 @@
  */
 
 // @lc code=start
+let LinkNode = function(key=null,value=null) {
+  this.key=key;
+  this.value = value;
+  this.prev = null;
+  this.next = null;
+}
 /**
  * @param {number} capacity
  */
 var LRUCache = function(capacity) {
-  this.hashMap = new Map()
-  this.maxLen = capacity
-  this.head = null
-  this.last = null
+  this.capacity = capacity
+  this.hashMap = {}
+  this.head = new LinkNode()
+  this.last = new LinkNode()
+  this.head.next = this.last
+  this.last.prev = this.head
 };
 
+LRUCache.prototype._isFull = function(){
+  return Object.keys(this.hashMap).length >= this.capacity;
+}
+LRUCache.prototype._add = function(node){
+  let next = this.head.next
+  this.head.next = node
+  node.next = next
+  node.prev = this.head
+  next.prev = node
+}
+LRUCache.prototype._removeNode = function(node){
+  let nodeNext = node.next
+  let nodePrev = node.prev
+  nodePrev.next = nodeNext
+  nodeNext.prev = nodePrev
+  node.next = node.prev = null
+}
+LRUCache.prototype._changeToHead = function(node){
+  this._removeNode(node)
+  this._add(node)
+}
 /** 
  * @param {number} key
  * @return {number}
  */
 LRUCache.prototype.get = function(key) {
-  if (this.hashMap.get(key)) {
-    let node = this.hashMap.get(key)
-    let prev = node.prev
-    if (prev!=null) {
-      let next = node.next
-      prev.next = next
-      if (!next) this.last = prev
-      else next.prev = prev
-      this.head.prev = node
-      node.next = this.head
-      node.prev = null
-      this.head = node
-    }
-    // console.log(this.hashMap);
-    return node.value
-  }
-  return -1
+  if (!this.hashMap.hasOwnProperty(key)) return -1
+  let node = this.hashMap[key];
+  this._changeToHead(node)
+  return node.value
 };
 
 /** 
@@ -45,46 +61,20 @@ LRUCache.prototype.get = function(key) {
  * @return {void}
  */
 LRUCache.prototype.put = function(key, value) {
-  if (this.hashMap.get(key)) {
-    let node = this.hashMap.get(key)
-    node.value = value
-    let prev = node.prev
-    if (prev!=null) {
-      let next = node.next
-      prev.next = next
-      if (!next) this.last = prev
-      else next.prev = prev
-      this.head.prev = node
-      node.next = this.head
-      node.prev = null
-      this.head = node
-    }
+  if(this.hashMap.hasOwnProperty(key)){
+    let node = this.hashMap[key];
+    node.value = value;
+    this._changeToHead(node)
   }else{
-    if (this.hashMap.size<this.maxLen ) {
-      this.hashMap.set(key,{key,value,prev:null,next:null})
-      let node = this.hashMap.get(key)
-      if (this.head != null){
-        this.head.prev = node
-        node.next = this.head
-        node.prev = null
-        this.head = node
-      } else this.head = this.last = node
-    }else{
-      let lastPrev = this.last.prev
-      this.hashMap.set(key,{key,value,prev:null,next:null})
-      let node = this.hashMap.get(key)
-      this.hashMap.delete(this.last.key)
-      if (lastPrev){
-        lastPrev.next = null
-        node.next = this.head
-        this.head.prev = node
-        this.head = node
-        this.last = lastPrev
-      } 
-      else this.head = this.last = node
+    if (this._isFull()) {
+      let delNode = this.last.prev
+      delete this.hashMap[delNode.key];
+      this._removeNode(delNode);
     }
+    let node = new LinkNode(key,value)
+    this._add(node)
+    this.hashMap[key] = node
   }
-  // console.log(this.last,'last');
 };
 
 /**
