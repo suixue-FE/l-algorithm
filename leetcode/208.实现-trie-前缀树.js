@@ -9,15 +9,12 @@
  * Initialize your data structure here.
  */
 var Trie = function() {
-  this.root = tireTreeNode()
+  this.root = new tireTreeNode()
 };
 
-let tireTreeNode = function(key) {
-  let obj = {}
-  if (key) {
-    obj[key] = tireTreeNode()
-  }
-  return obj
+let tireTreeNode = function() {
+  this.END = false;
+  this.children = {};
 }
 /**
  * Inserts a word into the trie. 
@@ -29,32 +26,34 @@ Trie.prototype.insert = function(word) {
   const len = word.length
   for (let i = 0; i < len; i++) {
     const val = word[i]
-    if (!nodeNow[val]) {
-      nodeNow[val] = tireTreeNode(val)
+    if (nodeNow.children[val]==undefined||!nodeNow.children[val]) {
+      nodeNow.children[val] = new tireTreeNode(val)
     }
-    nodeNow = nodeNow[val]
-    if (i===len-1) nodeNow.isEnd = true
+    nodeNow = nodeNow.children[val]
   }
+  nodeNow.END = true;
 };
-
+Trie.prototype.searchPrefix = function(word){
+  let currNode = this.root;
+  for(let i = 0;i < word.length;i++){
+    // console.log(currNode);
+      if(currNode.children[word[i]]){
+          currNode = currNode.children[word[i]];
+      }else{
+          return null;
+      }
+  }
+  return currNode;
+}
 /**
  * Returns if the word is in the trie. 
  * @param {string} word
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-  const len = word.length
-  let nodeNow = this.root
-  for (let i = 0; i < len; i++) {
-    const val = word[i]
-    if (!nodeNow[val]) return false
-    nodeNow = nodeNow[val]
+    let currNode = this.searchPrefix(word);
+    return currNode != null && currNode.END;
   }
-  if (nodeNow.isEnd) {
-    return true
-  }
-  return false
-};
 
 /**
  * Returns if there is any word in the trie that starts with the given prefix. 
@@ -62,14 +61,7 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-  const len = prefix.length
-  let nodeNow = this.root
-  for (let i = 0; i < len; i++) {
-    const val = prefix[i]
-    if (!nodeNow[val]) return false
-    nodeNow = nodeNow[val]
-  }
-  return true
+  return !!this.searchPrefix(prefix);
 };
 
 /**
