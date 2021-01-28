@@ -23,11 +23,8 @@ var knightProbability = function(N, K, r, c) {
   }
   const arr = [[1,2],[-1,2],[1,-2],[-1,-2],
   [2,1],[2,-1],[-2,-1],[-2,1]]
-  // console.log(dp);
   function getNowGL(x,y,i){
     if(i===K) return 1
-    // console.log(i,x,y);
-
     if(dp[i][x][y]!==false){
       return dp[i][x][y]
     }
