@@ -1,3 +1,4 @@
+// 当前二维数组内有无对应字符串
 /**
  * @param {character[][]} board
  * @param {string} word
