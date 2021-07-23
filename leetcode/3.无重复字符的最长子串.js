@@ -39,4 +39,20 @@ var lengthOfLongestSubstring = function(s) {
   }
   return result
 };
+// var lengthOfLongestSubstring = function(s) {
+//   const sLen = s.length
+//   if (sLen == 0) return 0
+//   let result = 0,i=0,j = 0
+//   let map = new Map()
+//   while (j<sLen) {
+//     const hasBfore = map.get(s[j])
+//     if (hasBfore!==undefined&&hasBfore>i) {
+//       i = hasBfore+1
+//     }
+//     map.set(s[j],j)
+//     result = Math.max(result,j-i)
+//     j++
+//   }
+//   return result
+// };
 // @lc code=end
