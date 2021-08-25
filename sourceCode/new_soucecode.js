@@ -25,3 +25,8 @@ Person.prototype.say = function(){
 const person1 = myNew(Person,'lzx','24')
 console.log(person1);
 person1.say()
+
+for (let index = 0; index < array.length; index++) {
+  const element = array[index];
+  
+}
